@@ -1,23 +1,16 @@
 package com.example.memorygame;
 
 import android.content.Context;
-import android.media.Image;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Enumeration;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder>{
 
@@ -25,6 +18,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
     private Context context;
     private ImageButton imageButton;
     private int numPieces;
+    private static final int MARGIN_SIZE = 10;
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private ImageButton imageButton;
@@ -40,18 +35,22 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
         this.numPieces = numPieces;
     }
 
-
     @NonNull
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        double parentHeight = parent.getHeight() / 4;
-        double parentWidth = parent.getWidth() / 2;
-        double smaller = Math.min(parentHeight, parentWidth);
+        int cardHeight = parent.getHeight() / 4 - (2*MARGIN_SIZE);  // 减去(2*MARGIN_SIZE)保证卡与卡之间有一定空隙
+        int cardWidth = parent.getWidth() / 2 - (2*MARGIN_SIZE);
+        int cardSmaller = Math.min(cardHeight, cardWidth); // 保证每张卡都是正方形，取最小值
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.memory_card, parent, false);
-        View layoutParams = view.findViewById(R.id.cardView);
-        layoutParams.getLayoutParams().width = (int)smaller;
-        layoutParams.getLayoutParams().height = (int)smaller;
+
+        View cardParams = view.findViewById(R.id.cardView);
+        cardParams.getLayoutParams().width = (int)cardSmaller;
+        cardParams.getLayoutParams().height = (int)cardSmaller;
+
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        layoutParams.setMargins(MARGIN_SIZE,MARGIN_SIZE,MARGIN_SIZE,MARGIN_SIZE);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }

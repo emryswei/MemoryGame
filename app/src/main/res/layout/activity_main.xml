@@ -26,7 +26,7 @@
             <TextView
                 android:id="@+id/numMoves"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:text="Moves: 0"
@@ -43,7 +43,7 @@
             <TextView
                 android:id="@+id/numPairs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:text="Pairs: 0/4"
@@ -55,6 +55,8 @@
         android:id="@+id/recyclerViewBoard"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
