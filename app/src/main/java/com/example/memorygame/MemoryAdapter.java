@@ -17,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder>{
 
     private static final String TAG = "MemoryAdapter";
     private Context context;
     private ImageButton imageButton;
+    private int numPieces;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private ImageButton imageButton;
@@ -32,9 +34,10 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
         }
     }
 
-    public MemoryAdapter(Context context, ImageButton imageButton) {
+    public MemoryAdapter(Context context, ImageButton imageButton, int numPieces) {
         this.context = context;
         this.imageButton = imageButton;
+        this.numPieces = numPieces;
     }
 
 
@@ -42,10 +45,13 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        double height = parent.getHeight();
-        double width = parent.getWidth();
-
+        double parentHeight = parent.getHeight() / 4;
+        double parentWidth = parent.getWidth() / 2;
+        double smaller = Math.min(parentHeight, parentWidth);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.memory_card, parent, false);
+        View layoutParams = view.findViewById(R.id.cardView);
+        layoutParams.getLayoutParams().width = (int)smaller;
+        layoutParams.getLayoutParams().height = (int)smaller;
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -63,7 +69,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return 8;
+        return numPieces;
     }
 
 

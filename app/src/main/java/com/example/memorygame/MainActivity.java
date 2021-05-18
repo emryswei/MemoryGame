@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         numMoves = findViewById(R.id.numMoves);
         numPairs = findViewById(R.id.numPairs);
-        recyclerView = findViewById(R.id.recyclerViewBoard);
         imageButton = findViewById(R.id.imageButton);
+        recyclerView = findViewById(R.id.recyclerViewBoard);
         recyclerView.setHasFixedSize(true);
 
-        MemoryAdapter memoryAdapter = new MemoryAdapter(this, imageButton);
+        MemoryAdapter memoryAdapter = new MemoryAdapter(this, imageButton, 8);
         recyclerView.setAdapter(memoryAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
 
