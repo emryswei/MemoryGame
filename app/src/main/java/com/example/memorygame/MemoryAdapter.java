@@ -1,6 +1,7 @@
 package com.example.memorygame;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import models.model.BoardSize;
+
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder>{
 
     private static final String TAG = "MemoryAdapter";
     private Context context;
     private ImageButton imageButton;
-    private int numPieces;
+    private BoardSize boardSize;
     private static final int MARGIN_SIZE = 10;
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private ImageButton imageButton;
@@ -29,25 +31,28 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
         }
     }
 
-    public MemoryAdapter(Context context, ImageButton imageButton, int numPieces) {
+    public MemoryAdapter(Context context, ImageButton imageButton, BoardSize boardSize) {
         this.context = context;
         this.imageButton = imageButton;
-        this.numPieces = numPieces;
+        this.boardSize = boardSize;
     }
 
     @NonNull
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int cardHeight = parent.getHeight() / 4 - (2*MARGIN_SIZE);  // 减去(2*MARGIN_SIZE)保证卡与卡之间有一定空隙
-        int cardWidth = parent.getWidth() / 2 - (2*MARGIN_SIZE);
-        int cardSmaller = Math.min(cardHeight, cardWidth); // 保证每张卡都是正方形，取最小值
+        int cardHeight = parent.getHeight() / boardSize.getRowNum() - (2*MARGIN_SIZE);  // 减去(2*MARGIN_SIZE)保证卡与卡之间有一定空隙
+        int cardWidth = parent.getWidth() / boardSize.getColumnNum() - (2*MARGIN_SIZE);
+
+        int cardSmallerSide = Math.min(cardHeight, cardWidth); // 保证每张卡都是正方形，取最小值
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.memory_card, parent, false);
 
-        View cardParams = view.findViewById(R.id.cardView);
-        cardParams.getLayoutParams().width = (int)cardSmaller;
-        cardParams.getLayoutParams().height = (int)cardSmaller;
+        ViewGroup cardParams = view.findViewById(R.id.cardView);
+        cardParams.getLayoutParams().width = cardSmallerSide;
+        cardParams.getLayoutParams().height = cardSmallerSide;
+//        Log.e("cardParamsWidth", "cardParams.getLayoutParams().width: "+cardParams.getLayoutParams().width);
+//        Log.e("cardParamsHeight", "cardParams.getLayoutParams().height: "+cardParams.getLayoutParams().height);
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         layoutParams.setMargins(MARGIN_SIZE,MARGIN_SIZE,MARGIN_SIZE,MARGIN_SIZE);
@@ -68,7 +73,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return numPieces;
+        return boardSize.getNumCards();
     }
 
 
