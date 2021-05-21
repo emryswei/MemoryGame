@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import models.model.BoardSize;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder>{
@@ -22,6 +24,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
     private ImageButton imageButton;
     private BoardSize boardSize;
     private static final int MARGIN_SIZE = 10;
+    private List<Integer> cardImages;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private ImageButton imageButton;
@@ -51,8 +54,6 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
         ViewGroup cardParams = view.findViewById(R.id.cardView);
         cardParams.getLayoutParams().width = cardSmallerSide;
         cardParams.getLayoutParams().height = cardSmallerSide;
-//        Log.e("cardParamsWidth", "cardParams.getLayoutParams().width: "+cardParams.getLayoutParams().width);
-//        Log.e("cardParamsHeight", "cardParams.getLayoutParams().height: "+cardParams.getLayoutParams().height);
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         layoutParams.setMargins(MARGIN_SIZE,MARGIN_SIZE,MARGIN_SIZE,MARGIN_SIZE);
@@ -63,6 +64,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
     @Override
     public void onBindViewHolder(MemoryAdapter.ViewHolder holder, int position) {
         holder.imageButton.setImageResource(R.drawable.ic_launcher_background);
+//        imageButton.setImageResource(cardImages.get(position));
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

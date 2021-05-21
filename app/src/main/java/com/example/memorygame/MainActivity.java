@@ -5,9 +5,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import models.model.BoardSize;
 
@@ -30,11 +34,26 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewBoard);
 
         BoardSize boardSize = BoardSize.HARD;
+
+        // shuffle所有IMAGE_ICONS中的元素，並賦值個新的list，方便調用
+        Collections.shuffle(Constants.IMAGE_ICONS);
+        List<Integer> shuffled = new ArrayList<>();
+        shuffled.addAll(Constants.IMAGE_ICONS);
+
+        //
+        List<Integer> shuffledGetPairs = shuffled.subList(0, boardSize.getNumPairs());
+        List<Integer> shuffledDouble = ;
+        Log.e("shuffled index 0", "shuffled index 0:  "+shuffled.get(0));
+
+
         MemoryAdapter memoryAdapter = new MemoryAdapter(this, imageButton, boardSize);
         recyclerView.setAdapter(memoryAdapter);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, boardSize.getColumnNum()));
 
+
     }
+
+
 }
