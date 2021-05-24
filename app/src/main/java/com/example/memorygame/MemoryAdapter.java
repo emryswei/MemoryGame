@@ -34,10 +34,11 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
         }
     }
 
-    public MemoryAdapter(Context context, ImageButton imageButton, BoardSize boardSize) {
+    public MemoryAdapter(Context context, ImageButton imageButton, BoardSize boardSize, List<Integer> cardImages) {
         this.context = context;
         this.imageButton = imageButton;
         this.boardSize = boardSize;
+        this.cardImages = cardImages;
     }
 
     @NonNull
@@ -63,7 +64,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(MemoryAdapter.ViewHolder holder, int position) {
-        holder.imageButton.setImageResource(R.drawable.ic_launcher_background);
+        holder.imageButton.setImageResource(cardImages.get(position));
 //        imageButton.setImageResource(cardImages.get(position));
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

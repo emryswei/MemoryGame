@@ -33,20 +33,24 @@ public class MainActivity extends AppCompatActivity {
         imageButton = findViewById(R.id.imageButton);
         recyclerView = findViewById(R.id.recyclerViewBoard);
 
-        BoardSize boardSize = BoardSize.HARD;
+        BoardSize boardSize = BoardSize.MEDIUM;
 
         // shuffle所有IMAGE_ICONS中的元素，並賦值個新的list，方便調用
         Collections.shuffle(Constants.IMAGE_ICONS);
         List<Integer> shuffled = new ArrayList<>();
         shuffled.addAll(Constants.IMAGE_ICONS);
+//        Log.e("shuffled new","shuffled new"+shuffled);
 
-        //
+        // 配對只需要一半IMAGE_ICONS，獲得shuffle後，根據boardsize大小
+        // 來選擇相應數量的IMAGE_ICONS，但選完後，選中的IMAGE_ICONS要*2，保證
+        // 填滿board
         List<Integer> shuffledGetPairs = shuffled.subList(0, boardSize.getNumPairs());
-        List<Integer> shuffledDouble = ;
-        Log.e("shuffled index 0", "shuffled index 0:  "+shuffled.get(0));
+        List<Integer> shuffledGetPairs2 = shuffled.subList(0, boardSize.getNumPairs());
+        shuffledGetPairs2.addAll(shuffledGetPairs);
+        Collections.shuffle(shuffledGetPairs2);
+//        Log.e("getPairs2", "getPairs2 : "+shuffledGetPairs2.size());
 
-
-        MemoryAdapter memoryAdapter = new MemoryAdapter(this, imageButton, boardSize);
+        MemoryAdapter memoryAdapter = new MemoryAdapter(this, imageButton, boardSize, shuffledGetPairs2);
         recyclerView.setAdapter(memoryAdapter);
         recyclerView.setHasFixedSize(true);
 
