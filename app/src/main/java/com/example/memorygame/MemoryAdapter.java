@@ -1,6 +1,7 @@
 package com.example.memorygame;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,9 +31,17 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
     private CardClickListener cardClickListener;
     private Integer indexOfSelectedCard = null;
     private MemoryCard memoryCard;
-
+    private int numPairsFound;
     public interface CardClickListener{
         void onCardClicked(int position);
+    }
+
+    public int getNumPairsFound() {
+        return numPairsFound;
+    }
+
+    public void setNumPairsFound(int numPairsFound) {
+        this.numPairsFound = numPairsFound;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -77,7 +88,12 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
         } else {
             holder.imageButton.setImageResource(cardImages.get(position).getIt());
         }
-
+        if(cardImages.get(position).getMatched()){
+            holder.imageButton.setAlpha(0.4f);
+        } else {
+            holder.imageButton.setAlpha(1.0f);}
+        ColorStateList colorStateList = ContextCompat.getColorStateList(context, R.color.color_gray);
+        ViewCompat.setBackgroundTintList(holder.imageButton, colorStateList);
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,15 +143,26 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
         }
         cardImages.get(position1).setMatched(true);
         cardImages.get(position2).setMatched(true);
+        numPairsFound++;
         return true;
     }
 
     public void restoreCards(){
-        // 把没有match的翻回去，setFaceUp == false
+        // 把没有match的翻回去
         for(MemoryCard card:cardImages){
             if(!card.getMatched()){
                 card.setFaceUp(false);
             }
         }
+    }
+
+    // 当全部配对时赢得游戏
+    public boolean wonTheGame(){
+        return numPairsFound == boardSize.getNumPairs();
+    }
+
+    // 查看是否被翻出来
+    public boolean ifIsFaceUp(int position){
+        return cardImages.get(position).getFaceUp();
     }
 }

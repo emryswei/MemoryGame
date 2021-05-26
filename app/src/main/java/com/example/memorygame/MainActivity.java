@@ -1,6 +1,7 @@
 package com.example.memorygame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import android.os.Bundle;
@@ -8,6 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.snackbar.SnackbarContentLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageButton imageButton;
     private BoardSize boardSize;
     private MemoryAdapter memoryAdapter;
+    private ConstraintLayout clRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +82,21 @@ public class MainActivity extends AppCompatActivity{
 
 
     private void updateGameFlip(int position){
-        memoryAdapter.flipCard(position);
+        clRoot = findViewById(R.id.clRoot);
+
+        if(memoryAdapter.wonTheGame()){
+            Snackbar.make(clRoot, "You won the game!", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        if(memoryAdapter.ifIsFaceUp(position)){
+            Snackbar.make(clRoot, "Invalid move, card is already flipped", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        if(memoryAdapter.flipCard(position)){
+            Log.e("Game", "Found a match! Num pairs found: "+memoryAdapter.getNumPairsFound());
+        }
+
         memoryAdapter.notifyDataSetChanged();
     }
 }
