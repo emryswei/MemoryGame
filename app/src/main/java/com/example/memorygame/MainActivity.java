@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity{
         imageButton = findViewById(R.id.imageButton);
         recyclerView = findViewById(R.id.recyclerViewBoard);
 
-        BoardSize boardSize = BoardSize.HARD;
+        BoardSize boardSize = BoardSize.EASY;
 
         // shuffle所有IMAGE_ICONS中的元素，並賦值個新的list，方便調用
         Collections.shuffle(Constants.IMAGE_ICONS);
