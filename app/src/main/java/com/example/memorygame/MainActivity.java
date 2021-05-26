@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
     private ImageButton imageButton;
     private BoardSize boardSize;
+    private MemoryAdapter memoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +60,24 @@ public class MainActivity extends AppCompatActivity{
             finalShuffled.add(memoryCard);
         }
 
-        MemoryAdapter memoryAdapter = new MemoryAdapter(this, imageButton, boardSize, finalShuffled,
+        memoryAdapter = new MemoryAdapter(this, imageButton, boardSize, finalShuffled,
                 new MemoryAdapter.CardClickListener() {  // 要使用MemoryAdapter中定义的interface，直接new一个就可以，记得一定要override
                     @Override
                     public void onCardClicked(int position) {
-                        Log.e("onCardClicked","onCardClicked in MainActivity: "+position);
+//                        Log.e("onCardClicked","onCardClicked in MainActivity: "+position);
+                         updateGameFlip(position);
                     }
                 });
+
         recyclerView.setAdapter(memoryAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, boardSize.getColumnNum()));
 
-
-
     }
 
 
+    private void updateGameFlip(int position){
+        memoryAdapter.flipCard(position);
+        memoryAdapter.notifyDataSetChanged();
+    }
 }
