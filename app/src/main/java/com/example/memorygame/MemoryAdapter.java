@@ -162,7 +162,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
     }
 
     // 查看是否被翻出来
-    public boolean ifIsFaceUp(int position){
+    public boolean isFaceUp(int position){
         return cardImages.get(position).getFaceUp();
     }
 }

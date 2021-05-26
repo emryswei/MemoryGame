@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity{
             return;
         }
 
-        if(memoryAdapter.ifIsFaceUp(position)){
+        if(memoryAdapter.isFaceUp(position)){
             Snackbar.make(clRoot, "Invalid move, card is already flipped", Snackbar.LENGTH_LONG).show();
             return;
         }
