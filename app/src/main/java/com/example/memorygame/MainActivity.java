@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import java.util.Objects;
 import models.model.BoardSize;
 import models.model.MemoryCard;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private TextView numMoves;
     private TextView numPairs;
@@ -58,11 +59,17 @@ public class MainActivity extends AppCompatActivity {
             finalShuffled.add(memoryCard);
         }
 
-        MemoryAdapter memoryAdapter = new MemoryAdapter(this, imageButton, boardSize, finalShuffled);
+        MemoryAdapter memoryAdapter = new MemoryAdapter(this, imageButton, boardSize, finalShuffled,
+                new MemoryAdapter.CardClickListener() {  // 要使用MemoryAdapter中定义的interface，直接new一个就可以，记得一定要override
+                    @Override
+                    public void onCardClicked(int position) {
+                        Log.e("onCardClicked","onCardClicked in MainActivity: "+position);
+                    }
+                });
         recyclerView.setAdapter(memoryAdapter);
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(new GridLayoutManager(this, boardSize.getColumnNum()));
+
 
 
     }

@@ -27,11 +27,11 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
     private BoardSize boardSize;
     private static final int MARGIN_SIZE = 10;
     private List<MemoryCard> cardImages;
-//    private CardClickListener cardClickListener;
+    private CardClickListener cardClickListener;
 
-//    public interface CardClickListener{
-//        void onCardClicked(int position);
-//    }
+    public interface CardClickListener{
+        void onCardClicked(int position);
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private ImageButton imageButton;
@@ -41,12 +41,12 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
         }
     }
 
-    public MemoryAdapter(Context context, ImageButton imageButton, BoardSize boardSize, List<MemoryCard> cardImages) {
+    public MemoryAdapter(Context context, ImageButton imageButton, BoardSize boardSize, List<MemoryCard> cardImages, CardClickListener cardClickListener) {
         this.context = context;
         this.imageButton = imageButton;
         this.boardSize = boardSize;
         this.cardImages = cardImages;
-//        this.cardClickListener = (MemoryAdapter.CardClickListener) cardClickListener;
+        this.cardClickListener = cardClickListener;
     }
 
     @NonNull
@@ -82,7 +82,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Log.e("OnClickListener", "position clicked: "+position);
-//                cardClickListener.onCardClicked(position);
+                cardClickListener.onCardClicked(position);
             }
         });
     }
@@ -91,7 +91,6 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.ViewHolder
     public int getItemCount() {
         return boardSize.getNumCards();
     }
-
 
 
 }
